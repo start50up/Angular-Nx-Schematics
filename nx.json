@@ -16,6 +16,12 @@
     },
     "ionic-start50up-mobile": {
       "tags": []
+    },
+    "landing-page": {
+      "tags": []
+    },
+    "landing-page-e2e": {
+      "tags": []
     }
   }
 }

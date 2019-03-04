@@ -24,9 +24,7 @@
               "testing/tsconfig.libs.json",
               "testing/tsconfig.libs.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -52,9 +50,7 @@
               "testing/tsconfig.xplat.json",
               "testing/tsconfig.xplat.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -67,6 +63,124 @@
       "schematics": {
         "@schematics/angular:component": {
           "styleext": "scss"
+        }
+      }
+    },
+    "landing-page": {
+      "root": "apps/landing-page/",
+      "sourceRoot": "apps/landing-page/src",
+      "projectType": "application",
+      "prefix": "stf",
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/landing-page",
+            "index": "apps/landing-page/src/index.html",
+            "main": "apps/landing-page/src/main.ts",
+            "polyfills": "apps/landing-page/src/polyfills.ts",
+            "tsConfig": "apps/landing-page/tsconfig.app.json",
+            "assets": [
+              "apps/landing-page/src/favicon.ico",
+              "apps/landing-page/src/assets"
+            ],
+            "styles": ["apps/landing-page/src/styles.scss"],
+            "scripts": [],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/landing-page/src/environments/environment.ts",
+                  "with": "apps/landing-page/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "landing-page:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "landing-page:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "landing-page:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/landing-page/tsconfig.app.json",
+              "apps/landing-page/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/landing-page/jest.config.js",
+            "tsConfig": "apps/landing-page/tsconfig.spec.json",
+            "setupFile": "apps/landing-page/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "landing-page-e2e": {
+      "root": "apps/landing-page-e2e",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/builders:cypress",
+          "options": {
+            "cypressConfig": "apps/landing-page-e2e/cypress.json",
+            "tsConfig": "apps/landing-page-e2e/tsconfig.e2e.json",
+            "devServerTarget": "landing-page:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "landing-page:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/landing-page-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**"]
+          }
         }
       }
     }
